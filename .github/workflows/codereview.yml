@@ -46,4 +46,4 @@ jobs:
 
       # step to run tfsec for security analysis of the Terraform code
       - name: Run tfsec Security Scan
-        uses: aquasecurity/tfsec-action@v1.0.9
+        uses: aquasecurity/tfsec-action@v1.0.3
