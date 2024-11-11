@@ -1,7 +1,7 @@
 # core variables
 rgname   = "tf-rg-davidsdo"
 location = "westeurope"
-saname   = "tf-sa-davidsdo"
+saname   = "tfsadavidsdo"
 storage_tiers      = ["Standard", "Premium"]
 sa_replicationtype = "LRS"
 

@@ -4,7 +4,7 @@ workspace_suffix = terraform.workspace == "default" ? "" : "${terraform.workspac
 
 # checks if the workspace is default and creates a resource group name amd storage account name with the workspace suffix if the workspace is not default
 rgname = terraform.workspace == "default" ? "${var.rgname}" : "${var.rgname}-${local.workspace_suffix}"
-saname = terraform.workspace == "default" ? "${var.saname}" : "${var.saname}-${local.workspace_suffix}"
+saname = terraform.workspace == "default" ? "${var.saname}" : "${var.saname}${local.workspace_suffix}"
 
 }
 
@@ -45,7 +45,7 @@ upper = false
 
 module "storage" {
   source             = "../modules/storage"
-  saname             = "${lower(local.saname)}-${random_string.random_string.result}"
+  saname             = "${lower(local.saname)}${random_string.random_string.result}"
   rgname             = azurerm_resource_group.rg.name
   location           = azurerm_resource_group.rg.location
   storage_tiers      = var.storage_tiers
