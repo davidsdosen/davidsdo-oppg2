@@ -26,7 +26,7 @@ provider "azurerm" {
   subscription_id = var.subscription_id
 }
 
-# creates a resource group in Azure
+# creates a resource group in Azure with the specified name and location
 resource "azurerm_resource_group" "rg" {
   name     = local.rgname
   location = var.location
