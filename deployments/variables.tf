@@ -38,6 +38,12 @@ variable "sa_replicationtype" {
   default     = "LRS"
 }
 
+variable "min_tls_version" {
+  description = "The minimum TLS version for the storage account"
+  type        = string
+  default     = "TLS1_2"
+}
+
 # database
 
 variable "sql_admin_password" {
@@ -81,6 +87,19 @@ variable "database_sku_name" {
 
 }
 
+variable "audit_storage_endpoint" {
+  description = "The endpoint URL of the storage account for SQL audit logs"
+  type        = string
+  default     = "https://mystorageaccount.blob.core.windows.net/"
+}
+
+variable "audit_storage_access_key" {
+  description = "The access key for the storage account used in SQL audit logs"
+  type        = string
+  default     = "fakeaccesskeyforlocaldevonly"
+  sensitive   = true
+}
+
 # networking
 
 variable "snname" {
@@ -104,7 +123,12 @@ variable "vnetname" {
 variable "nsg_id" {
   type        = string
   description = "The ID of the network security group"
+}
 
+variable "source_address_prefix" {
+  description = "The source address prefix"
+  type        = string
+  default     = "*"
 }
 
 # app service
