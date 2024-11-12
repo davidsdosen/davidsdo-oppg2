@@ -1,0 +1,31 @@
+# core variables
+rgname   = "tf-rg-davidsdo"
+location = "westeurope"
+saname   = "tfsadavidsdo"
+storage_tiers      = ["Standard", "Premium"]
+sa_replicationtype = "LRS"
+
+# subscription id
+subscription_id = "a3adf20e-4966-4afb-b717-4de1baae6db1"
+
+
+# networking and load balancer
+snname  = "tf-subnet-davidsdo"
+nsgname = "tf-networksecuritygroup-davidsdo"
+lb_name = "lb-tf-davidsdo"
+nsg_id  = "1321231"
+
+# database
+sql_server_name      = "tf-sql-davidsdo"
+sql_database_name    = "tf-sqldb-davidsdo"
+sql_admin_username   = "4dm1n157r470r"
+sql_admin_password   = "4-v3ry-53cr37-p455w0rd"
+enclave_type         = "VBS"
+sql_database_size_gb = 2
+database_sku_name    = "Basic"
+
+
+# app service plan
+splan_name          = "tf-splan-davidsdo"
+os_type             = "Windows"
+appservice_sku_name = "B1"
