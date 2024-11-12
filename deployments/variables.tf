@@ -104,7 +104,12 @@ variable "vnetname" {
 variable "nsg_id" {
   type        = string
   description = "The ID of the network security group"
+}
 
+variable "source_address_prefix" {
+  description = "The source address prefix"
+  type        = string
+  default     = "*"
 }
 
 # app service

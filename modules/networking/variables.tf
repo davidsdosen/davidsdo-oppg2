@@ -45,3 +45,9 @@ variable "dns_servers" {
   type        = list(string)
   default     = ["10.0.0.4", "10.0.0.5"]
 }
+
+variable "source_address_prefix" {
+  description = "The source address prefix"
+  type        = string
+  default     = "*"
+}
