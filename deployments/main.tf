@@ -50,6 +50,7 @@ module "storage" {
   location           = azurerm_resource_group.rg.location
   storage_tiers      = var.storage_tiers
   sa_replicationtype = var.sa_replicationtype
+  min_tls_version    = var.min_tls_version
 }
 
 module "networking" {

@@ -5,6 +5,7 @@ resource "azurerm_storage_account" "storage" {
   location                 = var.location
   account_tier             = var.storage_tiers[0]
   account_replication_type = var.sa_replicationtype
+  min_tls_version          = var.min_tls_version
 }
 
 # Storage container within the storage account used to organize and manage blobs (binary large objects) aka. collection of binary data stored as a single entity

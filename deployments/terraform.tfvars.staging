@@ -1,9 +1,12 @@
 # core variables
-rgname   = "tf-rg-davidsdo"
-location = "westeurope"
-saname   = "tfsadavidsdo"
+rgname             = "tf-rg-davidsdo"
+location           = "westeurope"
+
+# storage variables
+saname             = "tfsadavidsdo"
 storage_tiers      = ["Standard", "Premium"]
 sa_replicationtype = "LRS"
+min_tls_version    = "TLS1_2"
 
 # subscription id
 subscription_id = "a3adf20e-4966-4afb-b717-4de1baae6db1"
