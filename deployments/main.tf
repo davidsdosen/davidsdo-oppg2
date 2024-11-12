@@ -32,7 +32,7 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 }
 
-# generates a random string of 8 characters without special characters and uppercase letters
+# generates a random string of 8 characters without special characters and uppercase letters for the storage account name
 resource "random_string" "random_string" {
   length  = 8
   special = false
