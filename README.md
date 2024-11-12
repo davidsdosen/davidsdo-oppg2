@@ -11,7 +11,7 @@ Pushing to dev activates the dev workflow that runs terraform validate, terrafor
 
 If you also want to also deploy the dev branch, you need to include the keyword "devdeploy" in the commit message on the dev branch.
 
-
+If the staging workflow completes, the prod workflow automatically activates but to run the jobs and deploy the prod infrastructure the prod envorinment activates a manual approval.
 
 ## Pre-requisites
 Your repository must enable read and write workflow permissions in addition to allowing and github actions to create and approve pull requests.
