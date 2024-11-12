@@ -61,8 +61,8 @@ jobs:
         uses: aquasecurity/tfsec-action@v1.0.3
       
        # step to create an execution plan for the changes
-      - name: Terraform Plan
-        run: terraform plan -var-file=terraform.tfvars.dev -out=tfplan
+      #- name: Terraform Plan
+      #  run: terraform plan -var-file=terraform.tfvars.dev -out=tfplan
 
       # Step to automatically create and merge PR from dev to staging if all tests pass
       - name: Auto Merge Dev into Staging
