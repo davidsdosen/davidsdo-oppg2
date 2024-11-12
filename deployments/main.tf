@@ -1,10 +1,10 @@
-locals{
-# creates a workspace suffix if the workspace is not default
-workspace_suffix = terraform.workspace == "default" ? "" : "${terraform.workspace}"
+locals {
+  # creates a workspace suffix if the workspace is not default
+  workspace_suffix = terraform.workspace == "default" ? "" : "${terraform.workspace}"
 
-# checks if the workspace is default and creates a resource group name amd storage account name with the workspace suffix if the workspace is not default
-rgname = terraform.workspace == "default" ? "${var.rgname}" : "${var.rgname}-${local.workspace_suffix}"
-saname = terraform.workspace == "default" ? "${var.saname}" : "${var.saname}${local.workspace_suffix}"
+  # checks if the workspace is default and creates a resource group name amd storage account name with the workspace suffix if the workspace is not default
+  rgname = terraform.workspace == "default" ? "${var.rgname}" : "${var.rgname}-${local.workspace_suffix}"
+  saname = terraform.workspace == "default" ? "${var.saname}" : "${var.saname}${local.workspace_suffix}"
 
 }
 
@@ -34,9 +34,9 @@ resource "azurerm_resource_group" "rg" {
 
 # generates a random string of 8 characters without special characters and uppercase letters
 resource "random_string" "random_string" {
-length = 8
-special = false
-upper = false
+  length  = 8
+  special = false
+  upper   = false
 }
 
 
