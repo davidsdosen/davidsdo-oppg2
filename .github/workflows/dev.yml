@@ -59,6 +59,8 @@ jobs:
       # step to run tfsec for security analysis of the Terraform code
       - name: Run tfsec Security Scan
         uses: aquasecurity/tfsec-action@v1.0.3
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
        # step to create an execution plan for the changes to be applied
       - name: Terraform Plan
