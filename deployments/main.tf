@@ -41,8 +41,6 @@ resource "random_string" "random_string" {
 
 
 # reusable modules for storage, storage, networking, mssql database and app. Each module is defined in its own directory
-
-
 module "storage" {
   source             = "../modules/storage"
   saname             = "${lower(local.saname)}${random_string.random_string.result}"
@@ -60,7 +58,6 @@ module "networking" {
   vnetname = var.vnetname
   snname   = var.snname
   nsgname  = var.nsgname
-  #subnet_id = var.subnet_id
 }
 
 module "database" {
@@ -84,7 +81,4 @@ module "app_service" {
   os_type             = var.os_type
   lb_name             = var.lb_name
   appservice_sku_name = var.appservice_sku_name
-
 }
-
-# test comment
