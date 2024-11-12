@@ -23,7 +23,7 @@ variable "subscription_id" {
 variable "saname" {
   description = "Name of the storage account"
   type        = string
-  default     = "sa-tf-davidsdo"
+  default     = "satfdavidsdo"
 }
 
 variable "storage_tiers" {
