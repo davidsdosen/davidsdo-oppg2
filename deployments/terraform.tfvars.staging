@@ -11,7 +11,6 @@ min_tls_version    = "TLS1_2"
 # subscription id
 subscription_id = "a3adf20e-4966-4afb-b717-4de1baae6db1"
 
-
 # networking and load balancer
 snname  = "tf-subnet-davidsdo"
 nsgname = "tf-networksecuritygroup-davidsdo"
@@ -20,13 +19,15 @@ nsg_id  = "1321231"
 source_address_prefix = "192.168.1.0/24"
 
 # database
-sql_server_name      = "tf-sql-davidsdo"
-sql_database_name    = "tf-sqldb-davidsdo"
-sql_admin_username   = "4dm1n157r470r"
-sql_admin_password   = "4-v3ry-53cr37-p455w0rd"
-enclave_type         = "VBS"
-sql_database_size_gb = 2
-database_sku_name    = "Basic"
+sql_server_name          = "tf-sql-davidsdo"
+sql_database_name        = "tf-sqldb-davidsdo"
+sql_admin_username       = "4dm1n157r470r"
+sql_admin_password       = "4-v3ry-53cr37-p455w0rd"
+enclave_type             = "VBS"
+sql_database_size_gb     = 2
+database_sku_name        = "Basic"
+audit_storage_access_key = "fakeaccesskeyforlocaldevonly"
+audit_storage_endpoint   = "https://fakestorageaccount.blob.core.windows.net"
 
 
 # app service plan

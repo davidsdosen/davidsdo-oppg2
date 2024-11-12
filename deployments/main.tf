@@ -58,16 +58,18 @@ module "networking" {
 }
 
 module "database" {
-  source               = "../modules/database"
-  rgname               = azurerm_resource_group.rg.name
-  location             = azurerm_resource_group.rg.location
-  sql_admin_username   = var.sql_admin_username
-  sql_admin_password   = var.sql_admin_password
-  sql_server_name      = var.sql_server_name
-  sql_database_name    = var.sql_database_name
-  database_sku_name    = var.database_sku_name
-  enclave_type         = var.enclave_type
-  sql_database_size_gb = var.sql_database_size_gb
+  source                   = "../modules/database"
+  rgname                   = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  sql_admin_username       = var.sql_admin_username
+  sql_admin_password       = var.sql_admin_password
+  sql_server_name          = var.sql_server_name
+  sql_database_name        = var.sql_database_name
+  database_sku_name        = var.database_sku_name
+  enclave_type             = var.enclave_type
+  sql_database_size_gb     = var.sql_database_size_gb
+  audit_storage_access_key = var.audit_storage_access_key
+  audit_storage_endpoint   = var.audit_storage_endpoint
 }
 
 module "app_service" {
