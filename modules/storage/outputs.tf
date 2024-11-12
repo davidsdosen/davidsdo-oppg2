@@ -16,5 +16,6 @@ output "storage_account_primary_connection_string" {
 }
 
 output "storage_account_endpoint" {
+  description = "The endpoint for the storage account"
   value = azurerm_storage_account.storage.primary_blob_endpoint
 }

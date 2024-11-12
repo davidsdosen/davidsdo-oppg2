@@ -44,6 +44,10 @@ jobs:
       # initialize Terraform
       - name: Terraform Init
         run: terraform init
+      
+      # select or create a workspace for the prod environment if it doesn't exist
+      - name: Terraform workspace select or create dev
+        run: terraform workspace select prod || terraform workspace new prod
 
       # checks whether the configuration is valid
       - name: 'Terraform Validate'
@@ -54,9 +58,10 @@ jobs:
         with:
           tflint_version: latest
 
-      # creates an execution plan for the changes using the stagings tfvars file
+      # creates an execution plan for the changes using the prod tfvars file
       - name: Terraform Plan
-        run: terraform plan -var-file=terraform.tfvars.staging -out=tfplan
-      # apply the changes
+        run: terraform plan -var-file=terraform.tfvars.prod -out=tfplan
+      
+        # apply the changes
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
