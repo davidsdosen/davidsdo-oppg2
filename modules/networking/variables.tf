@@ -49,5 +49,4 @@ variable "dns_servers" {
 variable "source_address_prefix" {
   description = "The source address prefix"
   type        = string
-  default     = "*"
 }
