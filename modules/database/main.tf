@@ -6,7 +6,7 @@ resource "azurerm_mssql_server" "sqlserver" {
     administrator_login          = var.sql_admin_username
     administrator_login_password = var.sql_admin_password
     public_network_access_enabled = false
-    minimum_tls_version = "1.0"
+    minimum_tls_version = "1.2"
 }
 
 resource "azurerm_mssql_server_extended_auditing_policy" "audit_policy" {
@@ -14,7 +14,7 @@ resource "azurerm_mssql_server_extended_auditing_policy" "audit_policy" {
   storage_endpoint             = var.audit_storage_endpoint
   storage_account_access_key   = var.audit_storage_access_key
   storage_account_access_key_is_secondary = false
-  retention_in_days            = 30  # Customize the retention period based on requirements
+  retention_in_days            = 90  # Customize the retention period based on requirements
 }
 
 resource "azurerm_mssql_database" "sqldatabase" {
