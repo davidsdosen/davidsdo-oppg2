@@ -44,8 +44,7 @@ jobs:
       - name: Approval Needed
         if: github.ref_name == 'prod'
         uses: hmarr/auto-approve-action@v2
-        with:
-          reviewers: 'your-github-username'  # Replace with actual username(s)
+        with: {}
 
       # apply the changes only if approved
       - name: Terraform Apply

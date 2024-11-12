@@ -1,10 +1,14 @@
 # Workflow for staging envorinment/branch
 name: Staging Workflow
 
+# this workflow automatically starts when the 'Dev Workflow' is completed on the 'dev' branch
 on:
-  push:
+  workflow_run:
+    workflows: ["Dev Workflow"]                   # listens to the completion of this workflow
+    types:
+      - completed                                 # triggers when the workflow is completed
     branches:
-      - staging
+      - dev                                       # listens to the workflow completion only if it's run on the dev branch
 
 jobs:
   terraform:
@@ -32,9 +36,22 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
 
+      # runs 'terraform fmt' to check that all Terraform files are correctly formatted
+      - name: 'Terraform Format'
+        run: terraform fmt -check -recursive
+      
       # initialize Terraform
       - name: Terraform Init
         run: terraform init
+
+      # checks whether the configuration is valid
+      - name: 'Terraform Validate'
+        run: terraform validate
+
+      # linting Terraform files to catch possible errors using latest tflint version
+      - uses: terraform-linters/setup-tflint@v3
+        with:
+          tflint_version: latest
 
       # creates an execution plan for the changes using the stagings tfvars file
       - name: Terraform Plan
