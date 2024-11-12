@@ -68,8 +68,8 @@ module "database" {
   database_sku_name        = var.database_sku_name
   enclave_type             = var.enclave_type
   sql_database_size_gb     = var.sql_database_size_gb
-  audit_storage_access_key = var.audit_storage_access_key
-  audit_storage_endpoint   = var.audit_storage_endpoint
+  audit_storage_access_key = module.storage.storage_account_primary_access_key
+  audit_storage_endpoint   = module.storage.storage_account_endpoint
 }
 
 module "app_service" {
