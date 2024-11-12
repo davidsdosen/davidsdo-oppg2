@@ -9,6 +9,14 @@ resource "azurerm_mssql_server" "sqlserver" {
     minimum_tls_version = "1.0"
 }
 
+resource "azurerm_mssql_server_extended_auditing_policy" "audit_policy" {
+  server_id                    = azurerm_mssql_server.sqlserver.id
+  storage_endpoint             = var.audit_storage_endpoint
+  storage_account_access_key   = var.audit_storage_access_key
+  storage_account_access_key_is_secondary = false
+  retention_in_days            = 30  # Customize the retention period based on requirements
+}
+
 resource "azurerm_mssql_database" "sqldatabase" {
   name         = var.sql_database_name
   server_id    = azurerm_mssql_server.sqlserver.id
