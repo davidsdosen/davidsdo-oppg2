@@ -60,7 +60,7 @@ jobs:
       - name: Run tfsec Security Scan
         uses: aquasecurity/tfsec-action@v1.0.3
       
-       # step to create an execution plan for the changes
+       # step to create an execution plan for the changes to be applied
       #- name: Terraform Plan
       #  run: terraform plan -var-file=terraform.tfvars.dev -out=tfplan
 
