@@ -5,7 +5,6 @@ locals {
   # checks if the workspace is default and creates a resource group name amd storage account name with the workspace suffix if the workspace is not default
   rgname = terraform.workspace == "default" ? "${var.rgname}" : "${var.rgname}-${local.workspace_suffix}"
   saname = terraform.workspace == "default" ? "${var.saname}" : "${var.saname}${local.workspace_suffix}"
-
 }
 
 # specifies the provider and version. This allows the terraform plugin to interact with Microsoft Azure
@@ -17,7 +16,6 @@ terraform {
     }
   }
 }
-
 
 # various configuration settings for the Azure provider
 provider "azurerm" {
@@ -38,7 +36,6 @@ resource "random_string" "random_string" {
   special = false
   upper   = false
 }
-
 
 # reusable modules for storage, storage, networking, mssql database and app. Each module is defined in its own directory
 module "storage" {
