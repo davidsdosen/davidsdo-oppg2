@@ -6,6 +6,7 @@ resource "azurerm_mssql_server" "sqlserver" {
     administrator_login          = var.sql_admin_username
     administrator_login_password = var.sql_admin_password
     public_network_access_enabled = false
+    minimum_tls_version = "TLS1_2"
 }
 
 resource "azurerm_mssql_database" "sqldatabase" {
