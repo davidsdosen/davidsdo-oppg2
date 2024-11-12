@@ -13,7 +13,6 @@ variable "sql_admin_password" {
   description = "The password for the SQL Server admin"
   type        = string
   sensitive   = true
-  default = "admin1234!"
 }
 
 variable "sql_admin_username" {
