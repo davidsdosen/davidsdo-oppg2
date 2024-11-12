@@ -39,3 +39,9 @@ variable "sa_replicationtype" {
   type        = string
   default     = "LRS"
 }
+
+variable "min_tls_version" {
+  description = "The minimum TLS version for the storage account"
+  type        = string
+  default     = "TLS1_2"
+}

@@ -38,6 +38,12 @@ variable "sa_replicationtype" {
   default     = "LRS"
 }
 
+variable "min_tls_version" {
+  description = "The minimum TLS version for the storage account"
+  type        = string
+  default     = "TLS1_2"
+}
+
 # database
 
 variable "sql_admin_password" {
@@ -104,7 +110,12 @@ variable "vnetname" {
 variable "nsg_id" {
   type        = string
   description = "The ID of the network security group"
+}
 
+variable "source_address_prefix" {
+  description = "The source address prefix"
+  type        = string
+  default     = "*"
 }
 
 # app service
