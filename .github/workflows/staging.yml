@@ -1,0 +1,61 @@
+# Workflow for staging envorinment/branch
+name: Staging Workflow
+
+# this workflow automatically starts when the 'Dev Workflow' is completed on the 'dev' branch
+on:
+  workflow_run:
+    workflows: ["Dev Workflow"]                   # listens to the completion of this workflow
+    types:
+      - completed                                 # triggers when the workflow is completed
+    branches:
+      - dev                                       # listens to the workflow completion only if it's run on the dev branch
+
+jobs:
+  terraform:
+    name: Terraform Deploy - Staging
+    runs-on: ubuntu-latest
+
+    # defines envorinment global variables for the job
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+    # set the working directory for all steps
+    defaults:
+      run:
+        working-directory: ./deployments
+
+    steps:
+      # check out the code from the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # step to set up Terraform for the job
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      # runs 'terraform fmt' to check that all Terraform files are correctly formatted
+      - name: 'Terraform Format'
+        run: terraform fmt -check -recursive
+      
+      # initialize Terraform
+      - name: Terraform Init
+        run: terraform init
+
+      # checks whether the configuration is valid
+      - name: 'Terraform Validate'
+        run: terraform validate
+
+      # linting Terraform files to catch possible errors using latest tflint version
+      - uses: terraform-linters/setup-tflint@v3
+        with:
+          tflint_version: latest
+
+      # creates an execution plan for the changes using the stagings tfvars file
+      - name: Terraform Plan
+        run: terraform plan -var-file=terraform.tfvars.staging -out=tfplan
+      # apply the changes
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan

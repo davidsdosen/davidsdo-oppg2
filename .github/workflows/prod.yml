@@ -1,0 +1,52 @@
+# Prod Workflow with manual approval
+name: Prod Workflow
+
+on:
+  push:
+    branches:
+      - prod
+
+jobs:
+  terraform:
+    name: Terraform Deploy - Prod
+    runs-on: ubuntu-latest
+
+    # set environment variables globally for the job
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+    # set the working directory for all steps
+    defaults:
+      run:
+        working-directory: ./deployments
+
+    steps:
+      # check out the code from the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # set up Terraform for the job
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      # initialize Terraform
+      - name: Terraform Init
+        run: terraform init
+
+      # create an execution plan for the changes
+      - name: Terraform Plan
+        run: terraform plan -var-file=terraform.tfvars.prod -out=tfplan
+
+      # require approval before applying changes in production
+      - name: Approval Needed
+        if: github.ref_name == 'prod'
+        uses: hmarr/auto-approve-action@v2
+        with: {}
+
+      # apply the changes only if approved
+      - name: Terraform Apply
+        if: github.ref_name == 'prod' && github.event.review.state == 'approved'
+        run: terraform apply tfplan
