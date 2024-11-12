@@ -13,6 +13,8 @@ If you also want to also deploy the dev branch, you need to include the keyword 
 
 If the staging workflow completes, the prod workflow automatically activates but to run the jobs and deploy the prod infrastructure the prod envorinment activates a manual approval.
 
+Each workflow changes the terraform workspace to the correct one.
+
 ## Pre-requisites
 Your repository must enable read and write workflow permissions in addition to allowing and github actions to create and approve pull requests.
 
