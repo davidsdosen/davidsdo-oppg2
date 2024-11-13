@@ -7,7 +7,7 @@ locals {
   saname = terraform.workspace == "default" ? "${var.saname}" : "${var.saname}${local.workspace_suffix}"
 }
 
-# specifies the provider and version. This allows the terraform plugin to interact with Microsoft Azure APIs
+# specifies the provider and version. This allows the terraform plugin to interact with Microsoft Azure APIs and services
 terraform {
   required_providers {
     azurerm = {
