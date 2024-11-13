@@ -1,14 +1,14 @@
 # Workflow for staging envorinment/branch
 name: Staging Workflow
 
-# Specifies the events that will trigger the workflow
+# Specifies the events that will trigger the workflow. In this case, it will trigger when the Dev Workflow is completed and the branch it completed on is dev.
 on:
   workflow_run:
-    workflows: ["Dev Workflow"]  # Listens to the completion of this workflow
+    workflows: ["Dev Workflow"]
     types:
-      - completed                                  # Triggers when the workflow is completed
+      - completed
     branches:
-      - dev                                        # Only listens to the workflow completion if it's run on the 'dev' branch
+      - dev
 
 jobs:
   terraform:
