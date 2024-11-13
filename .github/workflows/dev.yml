@@ -32,7 +32,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0         # Fetches the entire history
+          fetch-depth: 0          # Fetches the entire history
           ref: dev                # Ensures you are on the correct branch
 
       # step to set up Terraform for the job
