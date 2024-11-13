@@ -3,15 +3,11 @@
 name: Dev Workflow
 
 # defining the trigger for the workflow.
-# this workflow will start if you push to the dev branch or a do a pull that target the stage branch.
+# this workflow will start if you push to the dev branch
 on:
   push:
     branches:
       - dev
-#  pull_request:
-#    types: [opened, synchronize, reopened, labeled]
-#    branches:
-#      - stage
 
 jobs:
   terraform:
