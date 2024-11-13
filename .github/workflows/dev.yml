@@ -78,7 +78,7 @@ jobs:
 
       # Step to automatically force merge from dev to staging if all tests pass
       - name: Auto Merge Dev into Staging
-        if: success()
+        if: success() && contains(github.event.head_commit.message, 'pipeline')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # first sets the git commiters identity to the github actions bot and fetches the staging branch
