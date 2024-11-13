@@ -82,5 +82,5 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git fetch origin prod:prod
           git checkout prod
-          git merge --no-ff --allow-unrelated-histories -X theirs staging -m "Merging staging into prod [skip ci]"
+          git merge --no-ff --allow-unrelated-histories -X theirs staging -m "Merging staging into prod"
           git push https://github.com/davidsdosen/davidsdo-oppg2.git HEAD:prod || echo "No changes to push"
