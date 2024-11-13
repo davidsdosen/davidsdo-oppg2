@@ -7,7 +7,7 @@ locals {
   saname = terraform.workspace == "default" ? "${var.saname}" : "${var.saname}${local.workspace_suffix}"
 }
 
-# specifies the provider and version. This allows the terraform plugin to interact with Microsoft Azure APIs
+# specifies the backend for storing the tfstate, provider and its version. This allows the terraform plugin to interact with Microsoft Azure APIs
 terraform {
   backend "azurerm" {
     resource_group_name  = "tf-backend-rg-davidsdo"
