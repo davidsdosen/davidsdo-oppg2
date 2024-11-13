@@ -50,13 +50,13 @@ variable "sql_admin_password" {
   description = "The password for the SQL Server admin"
   type        = string
   sensitive   = true
-  default     = "admin1234!"
+  default     = "4-v3ry-53cr37-p455w0rd"
 }
 
 variable "sql_admin_username" {
   description = "The username for the SQL Server admin"
   type        = string
-  default     = "admin"
+  default     = "4dm1n157r470r"
 }
 
 variable "sql_server_name" {

@@ -9,7 +9,7 @@ This repository uses repository secrets (AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, A
 
 Pushing to dev activates the dev workflow that runs terraform validate, terraform format, tflint and tfsec checks in addition to plan but without deploying. After this workflow completes if all tests pass, it automatically pulls and merges dev branch into the next branch, staging. This activates the staging branch which deploys the infrastructure using the staging specific tfvars file.
 
-If you also want to also deploy the dev branch, you need to include the keyword "devdeploy" in the commit message on the dev branch.
+If you also want to also deploy the dev branch/workspace, you need to include the keyword "devdeploy" in the commit message on when pushing to the dev branch.
 
 If the staging workflow completes, the prod workflow automatically activates but to run the jobs and deploy the prod infrastructure the prod envorinment activates a manual approval.
 

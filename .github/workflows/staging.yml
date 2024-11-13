@@ -32,6 +32,9 @@ jobs:
       # check out the code from the repository
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0              # Fetches the entire history
+          ref: staging                # Ensures you are on the correct branch
 
       # step to set up Terraform for the job
       - name: Set up Terraform
@@ -66,17 +69,18 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
 
-        # Step to automatically create and merge PR from dev to staging if all tests pass
-      - name: Auto Merge Dev into Staging
+      - name: Auto Merge Staging into Prod
         if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # runs to create a pull request if one doesn't already exist and auto-merge its changes
-      # merges the staging branch into the staging branch using "theirs" strategy to override conflicts and pushes the changes to the staging branch
+        # First sets the Git committer's identity to the GitHub Actions bot and fetches the prod branch
+        # Checks out the prod branch and merges the staging branch into it
+        # The --no-ff flag ensures a merge commit is created, and the -X theirs flag resolves any conflicts in favor of the staging branch
+        # After the merge is complete, the changes are pushed to the prod branch
         run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git fetch origin prod:prod
           git checkout prod
-          git pull origin prod
-          git merge staging -X theirs --no-edit || echo "Force merge resolved conflicts"
-          git push origin prod || echo "No changes to push"
+          git merge --no-ff --allow-unrelated-histories -X theirs staging -m "Merging staging into prod"
+          git push https://github.com/davidsdosen/davidsdo-oppg2.git HEAD:prod || echo "No changes to push"
