@@ -7,8 +7,6 @@ on:
     workflows: ["Staging Workflow"]                    
     types:
       - completed
-    branches:
-      - staging
 
 jobs:
   terraform:
