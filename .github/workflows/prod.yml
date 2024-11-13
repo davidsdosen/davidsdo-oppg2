@@ -1,11 +1,14 @@
 # Prod Workflow with manual approval
 name: Prod Workflow
 
-# triggers the workflow on push to the 'prod' branch
+# Specifies the events that will trigger the workflow. In this case, it will trigger when the Staging Workflow is completed and the branch it completed on is staging. 
 on:
-  push:
+  workflow_run:
+    workflows: ["Staging Workflow"]                    
+    types:
+      - completed
     branches:
-      - prod
+      - staging
 
 jobs:
   terraform:
