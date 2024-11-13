@@ -70,7 +70,7 @@ module "database" {
   sql_database_size_gb     = var.sql_database_size_gb
   audit_storage_access_key = module.storage.storage_account_primary_access_key
   audit_storage_endpoint   = module.storage.storage_account_endpoint
-  depends_on = [module.storage]
+  depends_on               = [module.storage]
 }
 
 module "app_service" {
