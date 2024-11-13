@@ -1,19 +1,12 @@
 # Workflow for staging envorinment/branch
 name: Staging Workflow
 
-# this workflow automatically starts when the 'Dev Workflow' is completed on the 'dev' branch
+# this workflow automatically starts when the merge from dev to staging is completed
 on:
-  push:
+  pull_request:
+    types: [closed]            # Triggers the workflow only when the PR is closed
     branches:
-      - staging
-
-#on:
-#  workflow_run:
-#    workflows: ["Dev Workflow"]                   # listens to the completion of this workflow
-#    types:
-#      - completed                                 # triggers when the workflow is completed
-#    branches:
-#      - dev                                       # listens to the workflow completion only if it's run on the dev branch
+      - staging                # Only trigger when the PR targets the staging branch
 
 jobs:
   terraform:
