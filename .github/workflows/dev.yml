@@ -76,17 +76,19 @@ jobs:
         if: contains(github.event.head_commit.message, 'devdeploy')
         run: terraform apply -auto-approve tfplan
 
-      # Step to automatically create and merge PR from dev to staging if all tests pass
+      # Step to automatically force merge from dev to staging if all tests pass
       - name: Auto Merge Dev into Staging
         if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # runs to create a pull request if one doesn't already exist and auto-merge its changes
-        # merges the dev branch into the staging branch using "theirs" strategy to override conflicts and pushes the changes to the staging branch
+        # first sets the git commiters identity to the github actions bot and fetches the staging branch
+        # then checks out the staging branch and merges the dev branch into it. 
+        # the --no--ff flag ensures that a merge commit is created and the -X theirs flag resolves any conflicts in favor of the dev branch
+        # after the merge is complete, the changes are pushed to the staging branch
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git fetch origin staging:staging
           git checkout staging
           git merge --no-ff --allow-unrelated-histories -X theirs dev -m "Merging dev into staging [skip ci]"
-          git push https://github.com/davidsdosen/davidsdo-oppg2.git HEAD:staging
+          git push https://github.com/davidsdosen/davidsdo-oppg2.git HEAD:staging || echo "No changes to push"
