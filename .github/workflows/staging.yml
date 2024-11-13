@@ -1,17 +1,20 @@
 # Workflow for staging envorinment/branch
 name: Staging Workflow
 
-# this workflow automatically starts when the merge from dev to staging is completed
+# Specifies the events that will trigger the workflow. In this case, it will trigger when the Dev Workflow is completed and the branch it completed on is dev. 
 on:
-  pull_request:
-    types: [closed]            # Triggers the workflow only when the PR is closed
+  workflow_run:
+    workflows: ["Dev Workflow"]                    
+    types:
+      - completed
     branches:
-      - staging                # Only trigger when the PR targets the staging branch
+      - dev
 
 jobs:
   terraform:
     name: Terraform Deploy - Staging
     runs-on: ubuntu-latest
+    environment: staging  
 
     # defines envorinment global variables for the job
     env:

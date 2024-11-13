@@ -13,6 +13,7 @@ jobs:
   terraform:
     name: Terraform Deploy - Dev
     runs-on: ubuntu-latest
+    environment: dev  
 
     # set environment variables globally for the job
     env:
