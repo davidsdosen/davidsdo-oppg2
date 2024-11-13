@@ -87,6 +87,17 @@ variable "database_sku_name" {
 
 }
 
+variable "audit_storage_endpoint" {
+  description = "The endpoint URL of the storage account for SQL audit logs"
+  type        = string
+}
+
+variable "audit_storage_access_key" {
+  description = "The access key for the storage account used in SQL audit logs"
+  type        = string
+  sensitive   = true
+}
+
 # networking
 
 variable "snname" {
