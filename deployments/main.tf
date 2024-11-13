@@ -17,7 +17,7 @@ terraform {
   }
 }
 
-# various configuration settings for the Azure provider
+# various configuration settings for the Azure provider including the subscription_id
 provider "azurerm" {
   # configuration options
   features {}
