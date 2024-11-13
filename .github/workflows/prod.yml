@@ -1,14 +1,12 @@
 # Prod Workflow with manual approval
 name: Prod Workflow
 
-# this workflow automatically starts when the 'Staging Workflow' is completed on the 'staging' branch
+# this workflow automatically starts when the merge from staging to prod is completed
 on:
-  workflow_run:
-    workflows: ["Staging Workflow"]                   # listens to the completion of this workflow
-    types:
-      - completed                                     # triggers when the workflow is completed
+  pull_request:
+    types: [closed]            # Triggers the workflow only when the PR is closed
     branches:
-      - staging                                       # listens to the workflow completion only if it's run on the dev branch
+      - prod                # Only trigger when the PR targets the prod branch
 
 jobs:
   terraform:
