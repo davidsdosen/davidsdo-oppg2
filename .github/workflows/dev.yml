@@ -66,6 +66,7 @@ jobs:
         env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
+
        # step to create an execution plan for the changes to be applied using the dev tfvars file
       - name: Terraform Plan
         run: terraform plan -var-file=terraform.tfvars.dev -out=tfplan
