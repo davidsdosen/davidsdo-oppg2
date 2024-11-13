@@ -12,7 +12,7 @@ jobs:
   terraform:
     name: Terraform Deploy - Prod
     runs-on: ubuntu-latest
-    environment: prod                                 # since the envorinment is prod, it will trigger a manual approval request before running the job
+    environment: prod                                 # since the envorinment is prod, it will trigger a manual approval request before running the job 
 
     # set environment variables globally for the job
     env:
