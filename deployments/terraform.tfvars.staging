@@ -26,9 +26,12 @@ sql_admin_password       = "4-v3ry-53cr37-p455w0rd"
 enclave_type             = "VBS"
 sql_database_size_gb     = 2
 database_sku_name        = "Basic"
-audit_storage_access_key = "fakeaccesskeyforlocaldevonly"
-audit_storage_endpoint   = "https://fakestorageaccount.blob.core.windows.net"
 
+# sample value for audit_storage_access_key: correct value will be applied after applying the terraform configuration
+audit_storage_access_key = "123123123"
+
+# sample value for audit_storage_endpoint: correct value will be applied after applying the terraform configuration
+audit_storage_endpoint = "https://sample_storage_endpoint.blob.core.windows.net/"
 
 # app service plan
 splan_name          = "tf-splan-davidsdo"

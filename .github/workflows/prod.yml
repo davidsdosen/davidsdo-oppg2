@@ -1,15 +1,20 @@
 # Prod Workflow with manual approval
 name: Prod Workflow
 
+# this workflow automatically starts when the 'Staging Workflow' is completed on the 'staging' branch
 on:
-  push:
+  workflow_run:
+    workflows: ["Staging Workflow"]                   # listens to the completion of this workflow
+    types:
+      - completed                                     # triggers when the workflow is completed
     branches:
-      - prod
+      - staging                                       # listens to the workflow completion only if it's run on the dev branch
 
 jobs:
   terraform:
     name: Terraform Deploy - Prod
     runs-on: ubuntu-latest
+    environment: prod                                 # since the envorinment is prod, it will trigger a manual approval request before running the job
 
     # set environment variables globally for the job
     env:
@@ -28,25 +33,35 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # set up Terraform for the job
+      # step to set up Terraform for the job
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
 
+      # runs 'terraform fmt' to check that all Terraform files are correctly formatted
+      - name: 'Terraform Format'
+        run: terraform fmt -check -recursive
+      
       # initialize Terraform
       - name: Terraform Init
         run: terraform init
+      
+      # select or create a workspace for the prod environment if it doesn't exist
+      - name: Terraform workspace select or create dev
+        run: terraform workspace select prod || terraform workspace new prod
 
-      # create an execution plan for the changes
+      # checks whether the configuration is valid
+      - name: 'Terraform Validate'
+        run: terraform validate
+
+      # linting Terraform files to catch possible errors using latest tflint version
+      - uses: terraform-linters/setup-tflint@v3
+        with:
+          tflint_version: latest
+
+      # creates an execution plan for the changes using the prod tfvars file
       - name: Terraform Plan
         run: terraform plan -var-file=terraform.tfvars.prod -out=tfplan
-
-      # require approval before applying changes in production
-      - name: Approval Needed
-        if: github.ref_name == 'prod'
-        uses: hmarr/auto-approve-action@v2
-        with: {}
-
-      # apply the changes only if approved
+      
+        # apply the changes
       - name: Terraform Apply
-        if: github.ref_name == 'prod' && github.event.review.state == 'approved'
-        run: terraform apply tfplan
+        run: terraform apply -auto-approve tfplan

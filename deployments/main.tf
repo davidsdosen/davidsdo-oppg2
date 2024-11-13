@@ -7,7 +7,7 @@ locals {
   saname = terraform.workspace == "default" ? "${var.saname}" : "${var.saname}${local.workspace_suffix}"
 }
 
-# specifies the provider and version. This allows the terraform plugin to interact with Microsoft Azure APIs
+# specifies the provider and version. This allows the terraform plugin to interact with Microsoft Azure APIs and services
 terraform {
   required_providers {
     azurerm = {
@@ -32,7 +32,7 @@ resource "azurerm_resource_group" "rg" {
 
 # generates a random string of 8 characters without special characters and uppercase letters for the storage account name
 resource "random_string" "random_string" {
-  length  = 8
+  length  = 5
   special = false
   upper   = false
 }
@@ -63,13 +63,14 @@ module "database" {
   location                 = azurerm_resource_group.rg.location
   sql_admin_username       = var.sql_admin_username
   sql_admin_password       = var.sql_admin_password
-  sql_server_name          = var.sql_server_name
+  sql_server_name          = "${lower(var.sql_server_name)}-${random_string.random_string.result}"
   sql_database_name        = var.sql_database_name
   database_sku_name        = var.database_sku_name
   enclave_type             = var.enclave_type
   sql_database_size_gb     = var.sql_database_size_gb
-  audit_storage_access_key = var.audit_storage_access_key
-  audit_storage_endpoint   = var.audit_storage_endpoint
+  audit_storage_access_key = module.storage.storage_account_primary_access_key
+  audit_storage_endpoint   = module.storage.storage_account_endpoint
+  depends_on               = [module.storage]
 }
 
 module "app_service" {

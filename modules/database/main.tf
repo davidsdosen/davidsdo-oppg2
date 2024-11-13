@@ -1,3 +1,4 @@
+# creates an Azure SQL Server, which acts as a logical container for databases in Azure SQL Database
 resource "azurerm_mssql_server" "sqlserver" {
     name                         = var.sql_server_name
     resource_group_name          = var.rgname
@@ -9,6 +10,7 @@ resource "azurerm_mssql_server" "sqlserver" {
     minimum_tls_version = "1.2"
 }
 
+# an extended auditing policy for the SQL Server logs and stores server activity
 resource "azurerm_mssql_server_extended_auditing_policy" "audit_policy" {
   server_id                    = azurerm_mssql_server.sqlserver.id
   storage_endpoint             = var.audit_storage_endpoint
@@ -17,6 +19,16 @@ resource "azurerm_mssql_server_extended_auditing_policy" "audit_policy" {
   retention_in_days            = 95  # Customize the retention period based on requirements
 }
 
+# an extended auditing policy for the SQL Server logs and stores server activity
+resource "azurerm_mssql_server_extended_auditing_policy" "audit_policy" {
+  server_id                    = azurerm_mssql_server.sqlserver.id
+  storage_endpoint             = var.audit_storage_endpoint
+  storage_account_access_key   = var.audit_storage_access_key
+  storage_account_access_key_is_secondary = false
+  retention_in_days            = 95  # Customize the retention period based on requirements
+}
+
+# simple Azure SQL Database within the SQL Server
 resource "azurerm_mssql_database" "sqldatabase" {
   name         = var.sql_database_name
   server_id    = azurerm_mssql_server.sqlserver.id
@@ -30,7 +42,7 @@ resource "azurerm_mssql_database" "sqldatabase" {
     foo = "bar"
   }
 
-  # prevent the possibility of accidental data loss
+  # prevent the possibility of accidental data loss, currently set to false due to issues with the module
   lifecycle {
     prevent_destroy = false
   }

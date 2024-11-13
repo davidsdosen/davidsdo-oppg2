@@ -8,10 +8,10 @@ on:
   push:
     branches:
       - dev
-  pull_request:
-    types: [opened, synchronize, reopened, labeled]
-    branches:
-      - stage
+#  pull_request:
+#    types: [opened, synchronize, reopened, labeled]
+#    branches:
+#      - stage
 
 jobs:
   terraform:
@@ -47,6 +47,10 @@ jobs:
       - name: Terraform Init
         run: terraform init
       
+      # select or create a workspace for the dev environment if it doesn't exist
+      - name: Terraform workspace select or create dev
+        run: terraform workspace select dev || terraform workspace new dev
+      
       # checks whether the configuration is valid
       - name: 'Terraform Validate'
         run: terraform validate
@@ -62,9 +66,15 @@ jobs:
         env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-       # step to create an execution plan for the changes to be applied
+
+       # step to create an execution plan for the changes to be applied using the dev tfvars file
       - name: Terraform Plan
         run: terraform plan -var-file=terraform.tfvars.dev -out=tfplan
+
+      # Apply the changes only if the commit message contains "devdeploy"
+      - name: Terraform Apply
+        if: contains(github.event.head_commit.message, 'devdeploy')
+        run: terraform apply -auto-approve tfplan
 
       # Step to automatically create and merge PR from dev to staging if all tests pass
       - name: Auto Merge Dev into Staging
@@ -75,5 +85,3 @@ jobs:
         run: |
           gh pr create --base staging --head dev --title "Auto-merge Dev to Staging" --body "Automatically merging dev into staging" || echo "PR already exists"
           gh pr merge --admin --squash || echo "PR merge pending checks or already merged"
-
-        

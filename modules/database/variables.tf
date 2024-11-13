@@ -13,7 +13,6 @@ variable "sql_admin_password" {
   description = "The password for the SQL Server admin"
   type        = string
   sensitive   = true
-  default = "admin1234!"
 }
 
 variable "sql_admin_username" {
@@ -58,12 +57,10 @@ variable "prevent_destroy" {
 variable "audit_storage_endpoint" {
   description = "The endpoint URL of the storage account for SQL audit logs"
   type        = string
-  default     = "https://mystorageaccount.blob.core.windows.net/"
 }
 
 variable "audit_storage_access_key" {
   description = "The access key for the storage account used in SQL audit logs"
   type        = string
-  default     = "fakeaccesskeyforlocaldevonly"
   sensitive   = true
 }
