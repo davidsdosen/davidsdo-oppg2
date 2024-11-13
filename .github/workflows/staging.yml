@@ -72,7 +72,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # runs to create a pull request if one doesn't already exist and auto-merge its changes
-      # merges the staging branch into the staging branch using "theirs" strategy to override conflicts and pushes the changes to the staging branch
+      # merges the staging branch into the staging branch using "theirs" strategy to override conflicts and pushes the changes to the staging branches
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
