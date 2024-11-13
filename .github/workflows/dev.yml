@@ -89,4 +89,4 @@ jobs:
           git fetch origin staging:staging
           git checkout staging
           git merge --no-ff --allow-unrelated-histories -X theirs dev -m "Merging dev into staging [skip ci]"
-          git push git@github.com/davidsdosen/davidsdo-oppg2.git HEAD:staging
+          git push https://github.com/davidsdosen/davidsdo-oppg2.git HEAD:staging

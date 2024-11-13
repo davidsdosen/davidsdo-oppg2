@@ -1,10 +1,10 @@
 # Workflow for staging envorinment/branch
 name: Staging Workflow
 
-# Specifies the events that will trigger the workflow. In this case, it will trigger when the Dev Workflow is completed and the branch it completed on is dev.
+# Specifies the events that will trigger the workflow. In this case, it will trigger when the Dev Workflow is completed and the branch it completed on is dev. 
 on:
   workflow_run:
-    workflows: ["Dev Workflow"]
+    workflows: ["Dev Workflow"]                    
     types:
       - completed
     branches:
@@ -14,7 +14,7 @@ jobs:
   terraform:
     name: Terraform Deploy - Staging
     runs-on: ubuntu-latest
-    environment: staging
+    environment: staging  
 
     # defines envorinment global variables for the job
     env:
@@ -66,12 +66,17 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
 
-        # Step to automatically create and merge PR from staging to dev if all tests pass
-      - name: Auto Merge Staging into Prod
+        # Step to automatically create and merge PR from dev to staging if all tests pass
+      - name: Auto Merge Dev into Staging
         if: success()
         env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # runs to create a pull request if one doesn't already exist and auto-merge its changes
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # runs to create a pull request if one doesn't already exist and auto-merge its changes
+      # merges the staging branch into the staging branch using "theirs" strategy to override conflicts and pushes the changes to the staging branches
         run: |
-          gh pr create --base prod --head staging --title "Auto-merge Dev to Staging" --body "Automatically merging dev into staging" || echo "PR already exists"
-          gh pr merge --admin --squash || echo "PR merge pending checks or already merged"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git checkout prod
+          git pull origin prod
+          git merge staging -X theirs --no-edit || echo "Force merge resolved conflicts"
+          git push origin prod || echo "No changes to push"
