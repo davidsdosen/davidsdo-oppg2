@@ -3,17 +3,32 @@ Repository for the 2nd obligatory assignment task:
 Terraform scripts for deploying and managing cloud infrastructure with Terraform to provision and manage resources declaratively with versioned configuration files with Github Actions
 workflows that automatically run Terraform tests and apply configurations when changes are pushed/merged into specific branches.
 
-This repository uses repository secrets (AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_CREDENTIALS, AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID) to authorize commands to the Microsoft Azure tenant. GITHUB_TOKEN is used to authorize workflows to perform automatic merging.
+## Repo secrets and GITHUB_TOKEN
+This repository uses repository secrets (AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_CREDENTIALS, AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID) to authorize commands to the Microsoft Azure tenant. 
+
+GITHUB_TOKEN is used to authorize workflows to perform automatic merging and pushing instead of ssh.
+
+## Terraform Workspaces
+
+This project uses a flexible terraform workspaces approach by using locals that automatically change infrastructure definitions and names based on which workspace you're in. The github CI/CD pipeline can automatically switch workspaces and deploy the appropriate infrastructure.
+
+![screenshot](azuredeployments.png)
 
 ## Workflow explanation/solution
+Pushing to dev activates the dev workflow that runs terraform validate, terraform format, tflint and tfsec checks in addition to plan. To deploy dev you need the keyword "devdeploy" in the commit message. This will deploy a dev envorinment with the dev specific tfvars file. For the automatic merge to the staging branch you need to add "pipeline" keyword in the commit message. You can only automerge if both the workflow is successful and you have the "pipeline" keyword. 
 
-Pushing to dev activates the dev workflow that runs terraform validate, terraform format, tflint and tfsec checks in addition to plan but without deploying. After this workflow completes if all tests pass, it automatically pulls and merges dev branch into the next branch, staging. This activates the staging branch which deploys the infrastructure using the staging specific tfvars file.
+Finishing the dev workflow activates the staging workflow on the staging branch which deploys the infrastructure using the staging specific tfvars file. 
 
-If you also want to also deploy the dev branch/workspace, you need to include the keyword "devdeploy" in the commit message on when pushing to the dev branch.
+If the staging workflow completes, the prod workflow automatically activates but before you can continue the workflow and run the jobs to deploy the prod infrastructure, the prod envorinment has a manual approval setting set to on which will pause the prod workflow at the start and require you to manually approve it.
 
-If the staging workflow completes, the prod workflow automatically activates but to run the jobs and deploy the prod infrastructure the prod envorinment activates a manual approval.
+Each workflow changes the terraform workspace to the correct one. The .yml workflow files can be found in .github/workflows
 
-Each workflow changes the terraform workspace to the correct one.
+![screenshot](workflows.png)
+
+## Remote .tfstate storage
+This project has a remote backend storage set up to automatically store the .tfstate files for all three envorinments (dev, staging and prod) in the same tf-backend-rg-davidsdo storage group.
+
+![screenshot](backend.png)
 
 ## Pre-requisites
 Your repository must enable read and write workflow permissions in addition to allowing and github actions to create and approve pull requests.
