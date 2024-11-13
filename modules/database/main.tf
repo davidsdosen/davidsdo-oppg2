@@ -19,6 +19,15 @@ resource "azurerm_mssql_server_extended_auditing_policy" "audit_policy" {
   retention_in_days            = 95  # Customize the retention period based on requirements
 }
 
+# an extended auditing policy for the SQL Server logs and stores server activity
+resource "azurerm_mssql_server_extended_auditing_policy" "audit_policy" {
+  server_id                    = azurerm_mssql_server.sqlserver.id
+  storage_endpoint             = var.audit_storage_endpoint
+  storage_account_access_key   = var.audit_storage_access_key
+  storage_account_access_key_is_secondary = false
+  retention_in_days            = 95  # Customize the retention period based on requirements
+}
+
 # simple Azure SQL Database within the SQL Server
 resource "azurerm_mssql_database" "sqldatabase" {
   name         = var.sql_database_name
