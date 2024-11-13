@@ -31,6 +31,9 @@ jobs:
       # step to check out the code from the repository
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0         # Fetches the entire history
+          ref: dev                # Ensures you are on the correct branch
 
       # step to set up Terraform for the job
       - name: Set up Terraform
