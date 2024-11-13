@@ -8,10 +8,10 @@ on:
   push:
     branches:
       - dev
-  pull_request:
-    types: [opened, synchronize, reopened, labeled]
-    branches:
-      - stage
+#  pull_request:
+#    types: [opened, synchronize, reopened, labeled]
+#    branches:
+#      - stage
 
 jobs:
   terraform:
@@ -84,5 +84,3 @@ jobs:
         run: |
           gh pr create --base staging --head dev --title "Auto-merge Dev to Staging" --body "Automatically merging dev into staging" || echo "PR already exists"
           gh pr merge --admin --squash || echo "PR merge pending checks or already merged"
-
-        

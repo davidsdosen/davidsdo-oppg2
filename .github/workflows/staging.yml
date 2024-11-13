@@ -3,12 +3,17 @@ name: Staging Workflow
 
 # this workflow automatically starts when the 'Dev Workflow' is completed on the 'dev' branch
 on:
-  workflow_run:
-    workflows: ["Dev Workflow"]                   # listens to the completion of this workflow
-    types:
-      - completed                                 # triggers when the workflow is completed
+  push:
     branches:
-      - dev                                       # listens to the workflow completion only if it's run on the dev branch
+      - staging
+
+#on:
+#  workflow_run:
+#    workflows: ["Dev Workflow"]                   # listens to the completion of this workflow
+#    types:
+#      - completed                                 # triggers when the workflow is completed
+#    branches:
+#      - dev                                       # listens to the workflow completion only if it's run on the dev branch
 
 jobs:
   terraform:
