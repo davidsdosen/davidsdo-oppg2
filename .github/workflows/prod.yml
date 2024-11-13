@@ -6,7 +6,7 @@ on:
   pull_request:
     types: [closed]            # Triggers the workflow only when the PR is closed
     branches:
-      - prod                # Only trigger when the PR targets the prod branch
+      - prod                   # Only trigger when the PR targets the prod branch
 
 jobs:
   terraform:
