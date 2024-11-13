@@ -1,7 +1,7 @@
 # Prod Workflow with manual approval
 name: Prod Workflow
 
-# Specifies the events that will trigger the workflow. In this case, it will trigger when the Staging Workflow is completed and the branch it completed on is staging. 
+# Specifies the events that will trigger the workflow. In this case, it will trigger when the Staging Workflow is completed.
 on:
   workflow_run:
     workflows: ["Staging Workflow"]                    
