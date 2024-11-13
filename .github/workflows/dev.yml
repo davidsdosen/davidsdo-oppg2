@@ -84,6 +84,8 @@ jobs:
         # runs to create a pull request if one doesn't already exist and auto-merge its changes
         # merges the dev branch into the staging branch using "theirs" strategy to override conflicts and pushes the changes to the staging branch
         run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
           git checkout staging
           git pull origin staging
           git merge dev -X theirs --no-edit || echo "Force merge resolved conflicts"
